@@ -67,8 +67,8 @@ Mean Aleatoric uncertainty: 0.0620
 
 ### Uncertainties
 
-<img src="images/fig1.png" alt="fig1" width="200" /><img src="images/fig2.png" alt="fig2" width="200" />  
-<img src="images/fig3.png" alt="fig3" width="200" /><img src="images/fig4.png" alt="fig4" width="200" />
+<img src="images/fig1.png" alt="fig1" width="400" /><img src="images/fig2.png" alt="fig2" width="400" />  
+<img src="images/fig3.png" alt="fig3" width="400" /><img src="images/fig4.png" alt="fig4" width="400" />
 
 
 ## Reference
