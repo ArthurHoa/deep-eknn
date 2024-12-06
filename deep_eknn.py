@@ -373,6 +373,6 @@ class EKNN(BaseEstimator, ClassifierMixin):
 
         indices = np.random.choice(self.size, (min(10000,int(self.size / 2)), 2), replace=False)
         distances = np.linalg.norm(self.X_trained[indices[:, 0]] - self.X_trained[indices[:, 1]], axis=1)
-        mean_distance = distances.mean()
+        mean_distance = np.nanmean(distances)
         gamma =  1 / (mean_distance  ** self.beta)
         return gamma
