@@ -72,9 +72,6 @@ class EKNN(BaseEstimator, ClassifierMixin):
         The accuracy score of the model.
         """
 
-        # Encode labels
-        y_true = self.label_encoder.transform(y_true)
-
         # Make predictions on X, using the given criterion
         y_pred = self.predict(X, criterion=criterion)
 
