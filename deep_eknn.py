@@ -206,6 +206,8 @@ class EKNN(BaseEstimator, ClassifierMixin):
         else:
             raise ValueError("Unknown decision criterion")
 
+        predictions = self.label_encoder.inverse_transform(predictions)
+
         # Return predictions or both predictions and bbas
         if return_bba:
             return predictions, result
