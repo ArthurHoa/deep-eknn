@@ -73,7 +73,7 @@ Mean Aleatoric uncertainty: 0.0620
 
 ## Reference
 
-When using this code please cite [Hoarau, Waegeman, Quost, Destercke. 2025]
+When using this code please cite _Not yet published_
 
 ### Related work
 
