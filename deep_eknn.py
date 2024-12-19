@@ -106,7 +106,7 @@ class EKNN(BaseEstimator, ClassifierMixin):
 
         # Format labels to belief functions
         y = self.label_encoder.transform(y)
-        classes = np.array(list(set(y)))
+        classes = np.array([i for i in range(int(math.log2(self.nb_classes + 1)))])
         _, y = noise_imprecision(y, classes.shape[0], classes, noise=0)
         
         # Check for data integrity
