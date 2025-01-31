@@ -3,7 +3,7 @@ Deep Evidential Framework to compute Epistemic and Aleatoric uncertainties.
 
 The method can simply be plugged on any deep architecture to compute aleatoric and epistemic uncertainties.  
 
-This framework is based on the Evidential K-Nearest Neighbors [Denœux 1995], the idea has been extended to neural networks [Denœux 2000] and a similar idea have been applied to Deep Learning [Tong _et al._ 2021] and Active Learning [Hoarau _et al._ 2024]. From a different litterature, a similar idea has been applied to Out-of-distribution Detection [Sun _et al._ 2022].
+This framework is based on the Evidential K-Nearest Neighbors [Denœux 1995], the idea has been extended to neural networks [Denœux 2000] and a similar idea have been applied to Deep Learning [Tong _et al._ 2021] and Active Learning [Hoarau _et al._ 2024]. From a different literature, a similar idea has been applied to Out-of-distribution Detection [Sun _et al._ 2022].
 
 ## Pre-requisites
 
