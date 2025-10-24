@@ -14,34 +14,47 @@ import torch
 import os
 import numpy as np
 
-
 def encode_input(trainloader, testloader, model, device='cpu'):
-    train_x = np.empty((0, 512))
-    train_y = np.array([])
-    test_x = np.empty((0, 512))
-    test_y = np.array([])
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model.to(device)
+    model.eval()
 
-    # Train reudction
-    for batch_idx, (inputs, targets) in enumerate(trainloader):
+    train_x_list, train_y_list = [], []
+    test_x_list, test_y_list = [], []
+
+    # --- Train reduction ---
+    for inputs, targets in trainloader:
         inputs, targets = inputs.to(device), targets.to(device)
-        layer4 = model.getlayer4(inputs)
-
-        train_x = np.append(train_x, layer4[:,:,0,0].detach().numpy(), axis = 0)
-        train_y = np.append(train_y, np.array(targets))
+        with torch.no_grad():  # Pas besoin de calculer les gradients
+            layer4 = model.getlayer4(inputs)
         
-    # Test reudction    
-    for batch_idx, (inputs, targets) in enumerate(testloader):
-        inputs, targets = inputs.to(device), targets.to(device)
-        layer4 = model.getlayer4(inputs)
+        # Move to CPU before converting to numpy
+        features = layer4[:, :, 0, 0].detach().cpu().numpy()
+        train_x_list.append(features)
+        train_y_list.append(targets.cpu().numpy())
 
-        test_x = np.append(test_x, layer4[:,:,0,0].detach().numpy(), axis = 0)
-        test_y = np.append(test_y, np.array(targets))
+    # --- Test reduction ---
+    for inputs, targets in testloader:
+        inputs, targets = inputs.to(device), targets.to(device)
+        with torch.no_grad():
+            layer4 = model.getlayer4(inputs)
+
+        features = layer4[:, :, 0, 0].detach().cpu().numpy()
+        test_x_list.append(features)
+        test_y_list.append(targets.cpu().numpy())
+
+    train_x = np.concatenate(train_x_list, axis=0, dtype=float)
+    train_y = np.concatenate(train_y_list, axis=0, dtype=float)
+    test_x = np.concatenate(test_x_list, axis=0, dtype=float)
+    test_y = np.concatenate(test_y_list, axis=0, dtype=float)
 
     return train_x, train_y, test_x, test_y
 
 def load_ResNet18():
     net = ResNet18()
-    net = net.to('cpu')
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    net = net.to(device)
 
     print('==> Loading pre-trained ResNet18...')
     assert os.path.isdir('example/saved_model'), 'Error: no model found!'

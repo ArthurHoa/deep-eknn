@@ -240,7 +240,7 @@ class EKNN(BaseEstimator, ClassifierMixin):
 
         # Compute aleatoric
         pign_prob = np.zeros((result.shape[0], result.shape[1]))
-        for k in range(result.shape[0]):
+        for k in range(result.shape[1]):
             pign_prob[:,k] = np.log2(result[:,k] + result[:,-1] / math.log2(self.nb_classes + 1))
         aleatoric = np.sum(-(result * pign_prob), axis=1)
 
