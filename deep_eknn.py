@@ -236,21 +236,12 @@ class EKNN(BaseEstimator, ClassifierMixin):
         result = self._predict(X)
 
         # Compute epistemic
-        card = np.zeros(result.shape[1])
-        for i in range(1, result.shape[1]):
-            card[i] = math.log2(bin(i).count("1"))
-        epistemic = np.sum((result * card), axis=1)
+        epistemic = result[:,-1] * math.log2(math.log2(self.nb_classes + 1))
 
         # Compute aleatoric
         pign_prob = np.zeros((result.shape[0], result.shape[1]))
-        for k in range(result.shape[0]): 
-                betp_atoms = ibelief.decisionDST(result[k].T, 4, return_prob=True)[0]
-                for i in range(1, result.shape[1]):
-                    for j in range(betp_atoms.shape[0]):
-                            if ((2**j) & i) == (2**j):
-                                pign_prob[k][i] += betp_atoms[j]
-                
-                    pign_prob[k][i] = math.log2(pign_prob[k][i])
+        for k in range(result.shape[0]):
+            pign_prob[:,k] = np.log2(result[:,k] + result[:,-1] / math.log2(self.nb_classes + 1))
         aleatoric = np.sum(-(result * pign_prob), axis=1)
 
         # Return uncertainties for input data
